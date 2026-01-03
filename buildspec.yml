@@ -3,16 +3,21 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Installing NGINX
-      - sudo apt-get update
-      - sudo apt-get install nginx -y
+      - echo "Installing NGINX"
+      - yum update -y
+      - yum install -y nginx
+
   build:
     commands:
-      - echo Build started on `date`
-      - cp index.html /var/www/html/
+      - echo "Build started on $(date)"
+      - mkdir -p /usr/share/nginx/html
+      - cp index.html /usr/share/nginx/html/
+
   post_build:
     commands:
-      - echo Configuring NGINX
+      - echo "Starting and enabling NGINX"
+      - systemctl start nginx
+      - systemctl enable nginx
 
 artifacts:
   files:
